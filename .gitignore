@@ -1,0 +1,26 @@
+# Virtual environment
+venv/
+
+# Environment variables
+.env
+
+# Persistence
+bot_learning.json
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
