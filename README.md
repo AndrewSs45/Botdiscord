@@ -10,7 +10,8 @@ Bot de Discord avanzado con inteligencia artificial conversacional, búsqueda en
 - **Clima** — Temperatura y viento de cualquier ciudad usando Open-Meteo (sin API key).
 - **Zonas Horarias** — Consulta la hora local o en cualquier zona del mundo. Cada usuario puede guardar su zona preferida.
 - **Preferencias de Usuario** — Persistencia de zona horaria por usuario.
-- **Música** — Reproduce audio desde YouTube con cola, loop (off/one/all), shuffle y control de volumen.
+- **Música** — Reproduce audio desde YouTube con cola, loop (off/one/all), shuffle y control de volumen. *( solo audio, no reproduce videos )*
+- **Moderación** — Kick, ban, softban, hackban, mute, warn, cleanup de mensajes y registro de infracciones.
 - **Sistema de Aprendizaje** — Registra temas populares y usuarios activos.
 - **Seguimiento de Comandos** — Estadísticas de uso por comando y por usuario.
 - **Interacción con otros bots** — Puede conversar con otros bots en Discord.
@@ -120,7 +121,7 @@ Sirviendo en 1 servidores
 ### Música
 | Comando | Descripción |
 |---------|-------------|
-| `!play <canción>` | Reproduce o encola una canción desde YouTube |
+| `!play <canción>` | Reproduce o encola una canción desde YouTube (solo audio) |
 | `!skip` | Salta a la siguiente canción |
 | `!stop` | Detiene la música y desconecta |
 | `!pause` | Pausa la reproducción |
@@ -130,6 +131,23 @@ Sirviendo en 1 servidores
 | `!loop off/one/all` | Cambia modo de loop |
 | `!shuffle` | Aleatoriza la cola |
 | `!volume <0-100>` | Ajusta el volumen |
+
+### Moderación
+| Comando | Descripción | Permisos |
+|---------|-------------|----------|
+| `!kick @user [razón]` | Expulsa a un miembro | `kick_members` |
+| `!ban @user [días] [razón]` | Banea con borrado opcional de mensajes | `ban_members` |
+| `!softban @user [razón]` | Banea y desbanea (borra mensajes) | `ban_members` |
+| `!hackban <id> [razón]` | Banea por ID a alguien fuera del server | `ban_members` |
+| `!unban <id> [razón]` | Desbanea por ID | `ban_members` |
+| `!mute @user [razón]` | Silencia a un miembro (rol Muted auto-creado) | `manage_roles` |
+| `!unmute @user` | Quita el silencio | `manage_roles` |
+| `!warn @user [razón]` | Advertencia (persistente) | `manage_messages` |
+| `!infractions @user` | Muestra advertencias del usuario | `manage_messages` |
+| `!clear_warns @user` | Limpia advertencias (solo admin) | `administrator` |
+| `!clean [cantidad]` | Elimina mensajes del canal (máx 100) | `manage_messages` |
+| `!modlog [cantidad]` | Registro de acciones de moderación | `administrator` |
+| `!modstats` | Estadísticas de moderación | `administrator` |
 
 ### Utilidad
 | Comando | Descripción |
@@ -243,6 +261,8 @@ HH:MM:SS [LEVEL] módulo: mensaje
 **Bot no responde** — Verifica que el bot tenga permisos de "Leer mensajes" y "Enviar mensajes" en el canal. Asegúrate de que `intents.message_content = True` en `main.py`.
 
 **La música no funciona** — Asegúrate de tener `ffmpeg` instalado en el sistema. Verifica que el bot tenga permisos `Connect` y `Speak`.
+
+**Nota sobre reproducción de video**: El bot reproduce solo **audio** desde YouTube. No tiene capacidad de reproducción de video ya que Discord no lo soporta de forma nativa. Si necesitas enviar videos, usa `!buscar` para encontrar enlaces.
 
 ## Seguridad
 
