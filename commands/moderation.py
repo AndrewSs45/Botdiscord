@@ -25,7 +25,7 @@ class Moderation(commands.Cog):
     clean, warn, infractions, modlog.
     """
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     # -- Helpers --
@@ -71,7 +71,7 @@ class Moderation(commands.Cog):
     @commands.command(name="kick")
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
-    async def kick(self, ctx, member: discord.Member, *, reason: str = ""):
+    async def kick(self, ctx: commands.Context, member: discord.Member, *, reason: str = ""):
         """Expulsa a un miembro del servidor.
 
         Ejemplo: !kick @usuario Spam en el chat
@@ -91,7 +91,7 @@ class Moderation(commands.Cog):
     @commands.command(name="ban")
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def ban(self, ctx, member: discord.Member, days: int = 0, *, reason: str = ""):
+    async def ban(self, ctx: commands.Context, member: discord.Member, days: int = 0, *, reason: str = ""):
         """Banea a un miembro del servidor.
 
         Opcional: días de mensajes a eliminar (0-7).
@@ -111,7 +111,7 @@ class Moderation(commands.Cog):
     @commands.command(name="softban")
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def softban(self, ctx, member: discord.Member, *, reason: str = ""):
+    async def softban(self, ctx: commands.Context, member: discord.Member, *, reason: str = ""):
         """Banea y desbanea inmediatamente (borra mensajes).
 
         Útil para limpiar mensajes de un usuario sin expulsarlo permanentemente.
@@ -129,7 +129,7 @@ class Moderation(commands.Cog):
     @commands.command(name="hackban")
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def hackban(self, ctx, user_id: int, *, reason: str = ""):
+    async def hackban(self, ctx: commands.Context, user_id: int, *, reason: str = ""):
         """Banea a un usuario que no está en el servidor por su ID.
 
         Ejemplo: !hackban 123456789 Spammer conocido
@@ -148,7 +148,7 @@ class Moderation(commands.Cog):
     @commands.command(name="unban")
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def unban(self, ctx, user_id: int, *, reason: str = ""):
+    async def unban(self, ctx: commands.Context, user_id: int, *, reason: str = ""):
         """Desbanea a un usuario por su ID.
 
         Ejemplo: !unban 123456789
@@ -185,7 +185,7 @@ class Moderation(commands.Cog):
     @commands.command(name="mute")
     @commands.has_permissions(manage_roles=True)
     @commands.bot_has_permissions(manage_roles=True)
-    async def mute(self, ctx, member: discord.Member, *, reason: str = ""):
+    async def mute(self, ctx: commands.Context, member: discord.Member, *, reason: str = ""):
         """Silencia a un miembro (rol Muted).
 
         Ejemplo: !mute @usuario Comportamiento inapropiado
@@ -208,7 +208,7 @@ class Moderation(commands.Cog):
     @commands.command(name="unmute")
     @commands.has_permissions(manage_roles=True)
     @commands.bot_has_permissions(manage_roles=True)
-    async def unmute(self, ctx, member: discord.Member):
+    async def unmute(self, ctx: commands.Context, member: discord.Member):
         """Quita el silencio a un miembro.
 
         Ejemplo: !unmute @usuario
@@ -226,7 +226,7 @@ class Moderation(commands.Cog):
 
     @commands.command(name="warn")
     @commands.has_permissions(manage_messages=True)
-    async def warn(self, ctx, member: discord.Member, *, reason: str = ""):
+    async def warn(self, ctx: commands.Context, member: discord.Member, *, reason: str = ""):
         """Aplica una advertencia a un miembro.
 
         Las advertencias se guardan y pueden consultarse con !infractions.
@@ -254,7 +254,7 @@ class Moderation(commands.Cog):
 
     @commands.command(name="infractions", aliases=["warns", "advertencias"])
     @commands.has_permissions(manage_messages=True)
-    async def infractions(self, ctx, member: discord.Member):
+    async def infractions(self, ctx: commands.Context, member: discord.Member):
         """Muestra las advertencias de un miembro.
 
         Ejemplo: !infractions @usuario
@@ -274,7 +274,7 @@ class Moderation(commands.Cog):
 
     @commands.command(name="clear_warns")
     @commands.has_permissions(administrator=True)
-    async def clear_warns(self, ctx, member: discord.Member):
+    async def clear_warns(self, ctx: commands.Context, member: discord.Member):
         """Limpia todas las advertencias de un miembro."""
         warns = self._warns()
         uid = str(member.id)
@@ -288,7 +288,7 @@ class Moderation(commands.Cog):
     @commands.command(name="clean", aliases=["purge"])
     @commands.has_permissions(manage_messages=True)
     @commands.bot_has_permissions(manage_messages=True)
-    async def clean(self, ctx, limit: int = 10):
+    async def clean(self, ctx: commands.Context, limit: int = 10):
         """Elimina mensajes recientes del canal actual.
 
         Máximo 100 mensajes. Ejemplo: !clean 20
@@ -304,7 +304,7 @@ class Moderation(commands.Cog):
 
     @commands.command(name="modlog", aliases=["logs"])
     @commands.has_permissions(administrator=True)
-    async def modlog(self, ctx, limit: int = 10):
+    async def modlog(self, ctx: commands.Context, limit: int = 10):
         """Muestra el registro de acciones de moderación.
 
         Ejemplo: !modlog 20
@@ -329,7 +329,7 @@ class Moderation(commands.Cog):
 
     @commands.command(name="modstats", aliases=["mod_stats"])
     @commands.has_permissions(administrator=True)
-    async def modstats(self, ctx):
+    async def modstats(self, ctx: commands.Context):
         """Muestra estadísticas de moderación."""
         log_data = self._mod_log()
         if not log_data:

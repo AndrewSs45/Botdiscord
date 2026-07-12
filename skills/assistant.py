@@ -127,15 +127,7 @@ class AIAssistant:
             )
 
             respuesta = []
-            while True:
-                try:
-                    chunk = await asyncio.wait_for(
-                        completion.__anext__(),
-                        timeout=_CHUNK_TIMEOUT,
-                    )
-                except StopAsyncIteration:
-                    break
-
+            async for chunk in completion:
                 if not chunk.choices:
                     continue
                 content = chunk.choices[0].delta.content

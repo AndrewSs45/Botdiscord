@@ -13,10 +13,7 @@ import discord
 import yt_dlp
 
 import config
-from utils.logger import setup_logger
-
-
-log = setup_logger("music")
+log = logging.getLogger(__name__)
 
 
 _YTDL_OPTS = {
