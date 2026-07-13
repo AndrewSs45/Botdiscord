@@ -58,6 +58,7 @@ async def on_ready():
     """
     log.info("Bot conectado como %s", bot.user)
     log.info("Sirviendo en %s servidores", len(bot.guilds))
+    await bot.tree.sync()
     persistence.start_auto_save()
     await bot.change_presence(
         activity=discord.Activity(

@@ -147,6 +147,19 @@ class AIAssistant:
 
         return None
 
+    _DANGEROUS_PATTERNS = [
+        "make a bomb", "how to kill", "how to harm",
+        "bomb making", "explosive device",
+    ]
+
+    @staticmethod
+    def _safety_filter(text: str) -> bool:
+        text_lower = text.lower()
+        for pattern in AIAssistant._DANGEROUS_PATTERNS:
+            if pattern in text_lower:
+                return True
+        return _es_respuesta_safety(text)
+
     def limpiar_historial_usuario(self, user_id: int):
         """Elimina el historial de conversación de un usuario.
 

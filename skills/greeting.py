@@ -30,6 +30,10 @@ _GREETING_RESPONSES = [
 ]
 
 
+def is_greeting(message: str) -> bool:
+    return bool(_PATTERN.match(message.strip()))
+
+
 def detectar_saludo(mensaje: str) -> bool:
     """Verifica si un mensaje es un saludo.
 
