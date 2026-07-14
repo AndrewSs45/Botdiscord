@@ -17,7 +17,8 @@ class TestGreetingExtended:
         assert is_greeting("hola.") is True
         assert is_greeting("") is False
         assert is_greeting("   ") is False
-        assert is_greeting("hola que tal") is True
+        assert is_greeting("que tal") is True
+        assert is_greeting("como estas") is True
 
     def test_is_greeting_case_insensitive(self):
         assert is_greeting("HOLA") is True
