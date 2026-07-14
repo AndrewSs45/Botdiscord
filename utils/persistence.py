@@ -2,7 +2,7 @@ import json
 import asyncio
 import logging
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 from utils.logger import setup_logger
 
@@ -102,4 +102,4 @@ class AsyncPersistence:
 
 
 def now_iso() -> str:
-    return datetime.now().isoformat(timespec="seconds")
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")

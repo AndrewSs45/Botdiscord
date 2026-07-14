@@ -152,10 +152,10 @@ class AIAssistant:
         "bomb making", "explosive device",
     ]
 
-    @staticmethod
-    def _safety_filter(text: str) -> bool:
+    @classmethod
+    def _safety_filter(cls, text: str) -> bool:
         text_lower = text.lower()
-        for pattern in AIAssistant._DANGEROUS_PATTERNS:
+        for pattern in cls._DANGEROUS_PATTERNS:
             if pattern in text_lower:
                 return True
         return _es_respuesta_safety(text)
