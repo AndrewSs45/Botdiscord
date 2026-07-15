@@ -3,6 +3,8 @@
 Utiliza la API pública Open-Meteo (sin clave API) para obtener
 temperatura actual y velocidad del viento de cualquier ciudad.
 """
+import asyncio
+
 import aiohttp
 
 
@@ -67,5 +69,5 @@ class WeatherSkill:
                     f"Temperatura: {current.get('temperature_2m', 'N/A')}°C\n"
                     f"Viento: {current.get('wind_speed_10m', 'N/A')} km/h"
                 )
-        except Exception as e:
+        except (aiohttp.ClientError, asyncio.TimeoutError, KeyError) as e:
             return f"No se pudo obtener el clima: {e}"

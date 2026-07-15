@@ -175,7 +175,7 @@ async def cargar_comandos():
         try:
             await bot.load_extension(f"commands.{archivo_py.stem}")
             log.info("Comandos cargados: %s", archivo_py.stem)
-        except Exception as e:
+        except (commands.ExtensionNotFound, commands.ExtensionAlreadyLoaded, commands.NoEntryPointError, commands.ExtensionFailed) as e:
             log.error("Error cargando %s: %s", archivo_py.stem, e)
 
 
@@ -195,7 +195,7 @@ async def main():
             await bot.start(config.DISCORD_TOKEN)
     except discord.LoginFailure:
         log.error("Token de Discord invalido. Verifica tu .env")
-    except Exception as e:
+    except (discord.ConnectionClosed, discord.HTTPException, discord.PrivilegedIntentsRequired) as e:
         log.error("Error: %s", e)
     finally:
         await shutdown()

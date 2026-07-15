@@ -140,7 +140,7 @@ class AIAssistant:
 
         except asyncio.TimeoutError:
             log.warning("Timeout en modelo %s (%s/%s)", modelo, intento, total)
-        except Exception as e:
+        except (openai.APIError, openai.APIConnectionError, openai.RateLimitError, openai.APITimeoutError) as e:
             log.error("Error en modelo %s (%s/%s): %s: %s", modelo, intento, total, type(e).__name__, e)
             if "DEGRADED" not in str(e):
                 await asyncio.sleep(config.REINTENTO_DELAY)

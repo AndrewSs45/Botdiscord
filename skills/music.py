@@ -121,7 +121,7 @@ class MusicPlayer:
                 if old.is_connected():
                     await old.disconnect(force=True)
                     log.debug("VoiceClient anterior desconectado")
-            except Exception as e:
+            except (discord.ClientException, discord.ConnectionClosed) as e:
                 log.debug("Error limpiando VoiceClient anterior: %s", e)
 
     async def _connect_voice(self, channel: discord.VoiceChannel) -> bool:
@@ -175,7 +175,7 @@ class MusicPlayer:
             try:
                 await self._vc.move_to(channel)
                 return True
-            except Exception as e:
+            except discord.ClientException as e:
                 log.error("Error moviendo de canal: %s", e)
                 await self._cleanup_vc()
 
@@ -393,7 +393,7 @@ class MusicPlayer:
             log.debug("Creando FFmpegPCMAudio para: %s", track.title)
             source = discord.FFmpegPCMAudio(audio_url, **_FFMPEG_OPTS)
             source = discord.PCMVolumeTransformer(source, volume=self._volume / 100)
-        except Exception as e:
+        except (discord.ClientException, OSError) as e:
             log.error("Error creando fuente de audio para %s: %s", track.title, e)
             return False
 
