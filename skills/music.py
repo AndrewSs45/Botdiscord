@@ -419,3 +419,34 @@ class MusicPlayer:
 
         log.debug("_play_track retornando True para: %s", track.title)
         return True
+
+
+class MusicService:
+    """Registry of active MusicPlayer instances per guild.
+
+    Centralizes player lifecycle management, making it testable and
+    avoiding global mutable state.
+    """
+
+    def __init__(self):
+        self._players: dict[int, MusicPlayer] = {}
+
+    def get_player(self, guild_id: int) -> MusicPlayer:
+        """Obtiene o crea un MusicPlayer para un servidor específico."""
+        if guild_id not in self._players:
+            self._players[guild_id] = MusicPlayer()
+        return self._players[guild_id]
+
+    def remove_player(self, guild_id: int) -> None:
+        """Elimina el MusicPlayer de un servidor si existe."""
+        self._players.pop(guild_id, None)
+
+    def get_all_players(self) -> dict[int, MusicPlayer]:
+        """Devuelve el diccionario completo de jugadores activos."""
+        return self._players
+
+    async def cleanup(self):
+        """Desconecta todos los jugadores y limpia el registro."""
+        for player in self._players.values():
+            await player.leave()
+        self._players.clear()

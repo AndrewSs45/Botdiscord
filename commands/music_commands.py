@@ -8,27 +8,18 @@ import asyncio
 import discord
 from discord.ext import commands
 
-from skills.music import MusicPlayer
-
-
-_players: dict[int, MusicPlayer] = {}
-
-
-def _get_player(guild_id: int) -> MusicPlayer:
-    """Obtiene o crea un MusicPlayer para un servidor específico."""
-    if guild_id not in _players:
-        _players[guild_id] = MusicPlayer()
-    return _players[guild_id]
+from skills.music import MusicPlayer, MusicService
 
 
 class MusicCommands(commands.Cog):
     """Comandos de música: reproducir, pausar, saltar, cola y control de reproducción."""
 
-    def __init__(self, bot):
+    def __init__(self, bot, service: MusicService | None = None):
         self.bot = bot
+        self.service = service or MusicService()
 
     def _player(self, ctx) -> MusicPlayer:
-        return _get_player(ctx.guild.id)
+        return self.service.get_player(ctx.guild.id)
 
     async def _ensure_voice(self, ctx) -> bool:
         if not ctx.author.voice or not ctx.author.voice.channel:
@@ -179,4 +170,6 @@ class MusicCommands(commands.Cog):
 
 async def setup(bot):
     """Función de carga requerida por discord.py para Cogs."""
-    await bot.add_cog(MusicCommands(bot))
+    service = MusicService()
+    bot.music_service = service
+    await bot.add_cog(MusicCommands(bot, service=service))
